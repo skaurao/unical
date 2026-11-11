@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>UniCal</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- ログイン・新規登録 -->
+<section id="authScreen" class="auth-screen">
+  <div class="auth-box">
+    <h1 class="logo">UniCal</h1>
+    <p class="subtitle">今日も、自分らしいペースで。</p>
+
+    <div class="auth-tabs">
+      <button id="loginTab" class="selected" type="button">ログイン</button>
+      <button id="registerTab" type="button">新規登録</button>
+    </div>
+
+    <form id="loginForm">
+      <label>ログインID
+        <input id="loginId" required autocomplete="username" placeholder="例：s001">
+      </label>
+      <label>パスワード
+        <input id="loginPassword" type="password" required autocomplete="current-password">
+      </label>
+      <button class="primary wide">ログイン</button>
+    </form>
+
+    <form id="registerForm" hidden>
+      <label>区分
+        <select id="regRole">
+          <option value="student">学生</option>
+          <option value="teacher">先生</option>
+        </select>
+      </label>
+
+      <label>ログインID
+        <input id="regId" required>
+      </label>
+      <label>パスワード（4文字以上）
+        <input id="regPassword" type="password" minlength="4" required>
+      </label>
+      <label>名前
+        <input id="regName" required>
+      </label>
+      <label>大学名
+        <input id="regUniversity" required>
+      </label>
+      <label>学部・学科
+        <input id="regDepartment" required>
+      </label>
+
+      <div id="registerStudentFields">
+        <label>学年
+          <select id="regGrade">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+        </label>
+        <label>学籍番号
+          <input id="regNumber" placeholder="例：S2026004">
+        </label>
+      </div>
+
+      <button class="primary wide">登録してはじめる</button>
+    </form>
+
+    <p id="authError" class="error" aria-live="polite"></p>
+
+    <div class="demo-info">
+      お試しログイン：学生 <b>s001</b>／先生 <b>t001</b>
+      <br>
+      パスワードはどちらも <b>1234</b>
+    </div>
+  </div>
+</section>
+
+<!-- アプリ本体 -->
+<div id="appScreen" hidden>
+
+  <header class="app-header">
+    <div>
+      <strong class="header-logo">UniCal</strong>
+      <small id="headerName"></small>
+    </div>
+    <button id="logoutBtn" class="outline small-btn">ログアウト</button>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ホーム -->
+    <section id="homePage">
+      <h1 id="homeTitle"></h1>
+      <p class="muted" id="homeDate"></p>
+
+      <div class="section-title">
+        <h2>今日の予定</h2>
+        <button class="outline" id="addTodayBtn">＋ 追加</button>
+      </div>
+      <div id="todayEvents"></div>
+
+      <div class="section-title">
+        <h2>ToDo・課題</h2>
+      </div>
+      <div id="homeTodos"></div>
+    </section>
+
+    <!-- カレンダー -->
+    <section id="calendarPage" hidden>
+      <h1>カレンダー</h1>
+
+      <div class="filter-row">
+        <button data-filter="university" class="selected">大学</button>
+        <button data-filter="private">プライベート</button>
+      </div>
+
+      <div class="calendar-header">
+        <button id="prevMonth">‹</button>
+        <strong id="monthLabel"></strong>
+        <button id="nextMonth">›</button>
+      </div>
+
+      <div class="card">
+        <div class="week-head">
+          <span>日</span><span>月</span><span>火</span>
+          <span>水</span><span>木</span><span>金</span><span>土</span>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </div>
+
+      <button id="todayBtn" class="outline">今日に戻る</button>
+
+      <div class="section-title">
+        <h2 id="selectedDateTitle"></h2>
+        <button id="addSelectedBtn" class="primary">＋ 追加</button>
+      </div>
+      <div id="selectedEvents"></div>
+    </section>
+
+    <!-- 時間割 -->
+    <section id="timetablePage" hidden>
+      <h1>時間割</h1>
+      <p class="muted">空いているマスをタップして授業を追加できます。</p>
+      <div id="timetableGrid" class="timetable-grid"></div>
+
+      <div class="section-title">
+        <h2>出席・欠席管理</h2>
+      </div>
+      <div id="attendanceList"></div>
+    </section>
+
+    <!-- 先生・友達 / 生徒 -->
+    <section id="peoplePage" hidden>
+      <h1 id="peopleTitle"></h1>
+      <p class="muted" id="peopleDescription"></p>
+
+      <div class="section-title">
+        <h2 id="peopleListTitle">先生一覧</h2>
+      </div>
+      <div id="peopleFilters"></div>
+      <div id="peopleList"></div>
+
+      <!-- 友達機能：学生ログイン時のみ表示 -->
+      <div id="studentFriendsArea" hidden>
+
+        <div class="section-title">
+          <h2>友達を追加</h2>
+        </div>
+        <div class="card">
+          <p class="muted">学籍番号で検索して友達申請できます。</p>
+          <div class="search-row">
+            <input id="friendSearch" placeholder="例：S2026002">
+            <button id="friendSearchBtn" class="primary">検索</button>
+          </div>
+          <div id="friendSearchResult"></div>
+        </div>
+
+        <div class="section-title">
+          <h2>届いた友達申請 <span id="requestCount" class="count" hidden></span></h2>
+        </div>
+        <div id="friendRequests"></div>
+
+        <div class="section-title">
+          <h2>申請中</h2>
+        </div>
+        <div id="pendingFriends"></div>
+
+        <div class="section-title">
+          <h2>友達一覧</h2>
+        </div>
+        <div id="friendList"></div>
+      </div>
+    </section>
+
+    <!-- 相手の詳細・予定・チャット -->
+    <section id="personPage" hidden>
+      <button id="backPersonBtn" class="outline">‹ 戻る</button>
+      <h1 id="personTitle"></h1>
+      <p id="personDescription" class="muted"></p>
+
+      <div id="personSchedule"></div>
+      <div id="personManagement"></div>
+
+      <div class="section-title">
+        <h2>メッセージ</h2>
+      </div>
+      <div id="messages" class="messages"></div>
+
+      <form id="messageForm" class="message-form">
+        <input id="messageText" placeholder="メッセージを入力" required>
+        <button class="primary">送信</button>
+      </form>
+    </section>
+
+    <!-- メニュー：友達機能はここには置かない -->
+    <section id="menuPage" hidden>
+      <h1>メニュー</h1>
+
+      <div class="card">
+        <h2 id="profileName"></h2>
+        <p id="profileInfo" class="muted"></p>
+      </div>
+
+      <div id="studentMenu" class="card">
+        <h2>予定の公開設定</h2>
+        <label class="check-row">
+          <input id="teacherPublic" type="checkbox">
+          先生に大学の予定を公開
+        </label>
+        <label class="check-row">
+          <input id="friendPublic" type="checkbox">
+          友達に予定を公開
+        </label>
+      </div>
+
+      <!-- 先生の空き時間・面談予約管理 -->
+      <div id="teacherSlotArea" hidden>
+        <div class="section-title">
+          <h2>面談の空き時間</h2>
+          <button id="addSlotBtn" class="primary">＋ 追加</button>
+        </div>
+        <div id="ownSlots"></div>
+
+        <div class="section-title">
+          <h2>面談予約の申請</h2>
+        </div>
+        <div id="teacherBookings"></div>
+      </div>
+
+      <button id="resetBtn" class="danger wide">
+        デモデータを初期化
+      </button>
+    </section>
+
+  </main>
+
+  <!-- 下部メニュー：アイコンを新デザインに変更 -->
+  <nav class="bottom-nav" aria-label="メインメニュー">
+
+    <!-- 4枚目：ホーム -->
+    <button data-page="home" class="active">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 10.5 12 3l9 7.5M5 9.5V21h5v-7h4v7h5V9.5"/>
+        </svg>
+      </span>
+      <span>ホーム</span>
+    </button>
+
+    <!-- 2枚目：カレンダー -->
+    <button data-page="calendar">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="17" rx="3"/>
+          <path d="M7 2v4M17 2v4M3 9h18"/>
+          <text x="12" y="18" text-anchor="middle"
+                font-size="10" fill="currentColor" stroke="none">1</text>
+        </svg>
+      </span>
+      <span>カレンダー</span>
+    </button>
+
+    <!-- 1枚目：時間割 -->
+    <button data-page="timetable">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="4" width="20" height="18" rx="3"/>
+          <path d="M6 2v5M12 2v5M18 2v5"/>
+          <rect x="5" y="10" width="3" height="3" rx=".5"/>
+          <rect x="10.5" y="10" width="3" height="3" rx=".5"/>
+          <rect x="16" y="10" width="3" height="3" rx=".5"/>
+          <rect x="5" y="15.5" width="3" height="3" rx=".5"/>
+          <rect x="10.5" y="15.5" width="3" height="3" rx=".5"/>
+        </svg>
+      </span>
+      <span>時間割</span>
+    </button>
+
+    <!-- 3枚目：先生・友達 / 生徒 -->
+    <button data-page="people">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="7" r="4"/>
+          <path d="M4 21c0-5 3.5-8 8-8s8 3 8 8"/>
+        </svg>
+      </span>
+      <span id="peopleNavText">先生・友達</span>
+      <span id="peopleBadge" class="nav-badge" hidden></span>
+    </button>
+
+    <!-- メニュー：そのまま -->
+    <button data-page="menu">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </span>
+      <span>メニュー</span>
+      <span id="menuBadge" class="nav-badge" hidden></span>
+    </button>
+  </nav>
+</div>
+
+<!-- 予定追加・編集 -->
+<dialog id="eventDialog">
+  <h2>予定・課題</h2>
+  <form id="eventForm">
+    <label>種類
+      <select id="eventType">
+        <option value="university">大学の予定</option>
+        <option value="task">課題</option>
+        <option value="private">プライベート</option>
+      </select>
+    </label>
+    <label>タイトル<input id="eventTitle" required></label>
+    <label>日付<input id="eventDate" type="date" required></label>
+    <label>時刻<input id="eventTime" type="time"></label>
+    <label>詳細<textarea id="eventNote"></textarea></label>
+    <div class="dialog-actions">
+      <button type="button" id="cancelEvent" class="outline">戻る</button>
+      <button class="primary">保存</button>
+    </div>
+    <button type="button" id="deleteEvent" class="danger wide">削除</button>
+  </form>
+</dialog>
+
+<!-- 授業詳細・出席条件 -->
+<dialog id="courseDialog">
+  <h2>授業詳細・出席条件</h2>
+  <form id="courseForm">
+    <label>授業名<input id="courseTitle" required></label>
+    <label>曜日
+      <select id="courseDay">
+        <option value="1">月</option>
+        <option value="2">火</option>
+        <option value="3">水</option>
+        <option value="4">木</option>
+        <option value="5">金</option>
+      </select>
+    </label>
+    <label>時限
+      <select id="coursePeriod">
+        <option value="1">1限</option>
+        <option value="2">2限</option>
+        <option value="3">3限</option>
+        <option value="4">4限</option>
+        <option value="5">5限</option>
+      </select>
+    </label>
+    <label>教室<input id="courseRoom"></label>
+
+    <div class="attendance-settings">
+      <label>総授業回数
+        <input id="courseTotalClasses" type="number" min="1" value="15" required>
+      </label>
+      <label>欠席可能回数
+        <input id="courseAllowedAbsences" type="number" min="0" value="4" required>
+      </label>
+    </div>
+
+    <div id="courseAttendancePreview"></div>
+
+    <div class="dialog-actions">
+      <button type="button" id="cancelCourse" class="outline">戻る</button>
+      <button class="primary">保存</button>
+    </div>
+    <button type="button" id="deleteCourse" class="danger wide">
+      授業を削除
+    </button>
+  </form>
+</dialog>
+
+<!-- 先生の空き時間 -->
+<dialog id="slotDialog">
+  <h2>面談の空き時間</h2>
+  <form id="slotForm">
+    <label>日付<input id="slotDate" type="date" required></label>
+    <label>開始<input id="slotStart" type="time" required></label>
+    <label>終了<input id="slotEnd" type="time" required></label>
+    <div class="dialog-actions">
+      <button type="button" id="cancelSlot" class="outline">戻る</button>
+      <button class="primary">保存</button>
+    </div>
+    <button type="button" id="deleteSlot" class="danger wide">削除</button>
+  </form>
+</dialog>
+
+</body>
+</html>

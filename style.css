@@ -1,0 +1,961 @@
+
+/* ==========================================
+   UniCal スマホ用 CSS 完全版
+========================================== */
+
+:root {
+  --blue: #619edb;
+  --blue-dark: #4d86bf;
+  --blue-light: #e4f0fd;
+  --background: #f7faff;
+  --text: #293b50;
+  --muted: #8291a3;
+  --border: #e1eaf4;
+  --white: #ffffff;
+  --red: #df7378;
+  --green: #64a987;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #eaf1f8;
+  color: var(--text);
+  font-family:
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  font-size: 14px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+h1 {
+  font-size: 22px;
+  margin: 10px 0 15px;
+}
+
+h2 {
+  font-size: 17px;
+}
+
+h3 {
+  font-size: 15px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+small,
+.muted {
+  color: var(--muted);
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #dce5ef;
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #b8d8f5;
+  border-color: var(--blue);
+}
+
+input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--blue);
+}
+
+textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+.primary {
+  background: var(--blue);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.primary:active {
+  background: var(--blue-dark);
+}
+
+.outline {
+  background: white;
+  color: #5b91c8;
+  border: 1px solid #c7dcf0;
+  padding: 9px 12px;
+  border-radius: 10px;
+}
+
+.danger {
+  background: #fff0f0;
+  color: #d85b5b;
+  padding: 11px;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.wide {
+  width: 100%;
+}
+
+.small-btn {
+  font-size: 11px;
+  padding: 7px 10px;
+}
+
+.error {
+  color: #d85b5b;
+  font-weight: bold;
+}
+
+.empty {
+  color: #9aa7b5;
+  text-align: center;
+  padding: 18px;
+}
+
+.card,
+.item,
+.schedule-card {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 3px 12px rgba(120, 160, 200, 0.07);
+}
+
+/* ==========================================
+   ログイン・新規登録
+========================================== */
+
+.auth-screen {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(120, 160, 200, 0.15);
+}
+
+.logo {
+  color: var(--blue);
+  text-align: center;
+  font-size: 36px;
+  margin: 0;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 25px 0 15px;
+}
+
+.auth-tabs button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  background: #edf3fa;
+  color: #7b8da0;
+}
+
+.auth-tabs button.selected {
+  background: var(--blue);
+  color: white;
+}
+
+.auth-box .primary {
+  margin-top: 20px;
+}
+
+.demo-info {
+  margin-top: 22px;
+  background: #f1f7fd;
+  padding: 15px;
+  border-radius: 12px;
+  line-height: 1.9;
+}
+
+/* ==========================================
+   アプリ全体
+========================================== */
+
+#appScreen {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--background);
+  box-shadow: 0 0 25px rgba(90, 130, 170, 0.08);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  height: 65px;
+  background: white;
+  border-bottom: 1px solid #e4ebf3;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  color: var(--blue);
+  font-size: 23px;
+}
+
+#headerName {
+  display: block;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.app-main {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 18px 15px 105px;
+}
+
+.app-main h1 {
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+.app-main h2 {
+  font-size: 16px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 25px 0 12px;
+}
+
+.section-title h2 {
+  margin: 0;
+  min-width: 0;
+}
+
+/* ==========================================
+   下部メニュー
+========================================== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  height: 76px;
+  background: white;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -3px 12px rgba(100, 140, 180, 0.05);
+  display: flex;
+  z-index: 30;
+}
+
+.bottom-nav button {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  color: #8b99a9;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 2px;
+  position: relative;
+}
+
+.bottom-nav button.active {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.bottom-nav .nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+}
+
+.bottom-nav .nav-icon svg {
+  width: 25px;
+  height: 25px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bottom-nav button.active .nav-icon {
+  color: var(--blue);
+}
+
+.nav-badge,
+.count {
+  background: #ed6d72;
+  color: white;
+  border-radius: 20px;
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.nav-badge {
+  position: absolute;
+  top: 4px;
+  right: 8%;
+}
+
+/* ==========================================
+   予定カード・ToDo
+========================================== */
+
+.item {
+  border-left: 4px solid #6babe7;
+}
+
+.item.task {
+  border-left-color: #ed7d7d;
+}
+
+.item.private {
+  border-left-color: #75bd98;
+}
+
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.item strong,
+.item small {
+  display: block;
+  margin: 5px 0;
+}
+
+.plain {
+  flex: 1;
+  background: transparent;
+  text-align: left;
+  padding: 0;
+  color: inherit;
+  min-width: 0;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  border-radius: 7px;
+  padding: 3px 8px;
+  background: #e7f2fd;
+  color: #5b91c9;
+}
+
+.tag.task {
+  background: #ffebeb;
+  color: #e16b6b;
+}
+
+.tag.private {
+  background: #e6f6ed;
+  color: #58a87d;
+}
+
+.tiny {
+  background: #edf4fc;
+  color: #568bc2;
+  padding: 7px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.urgent {
+  background: #fff3f3;
+  border-left-color: #e95e66;
+}
+
+.deadline {
+  color: #d84e59;
+  font-weight: bold;
+}
+
+.done {
+  opacity: 0.55;
+}
+
+/* ==========================================
+   カレンダー
+========================================== */
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.calendar-header strong {
+  font-size: 17px;
+}
+
+.calendar-header button {
+  background: white;
+  color: var(--blue);
+  font-size: 26px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 7px;
+  margin: 15px 0;
+}
+
+.filter-row button {
+  flex: 1;
+  min-width: 0;
+  background: #e9f0f8;
+  color: #74899e;
+  padding: 10px 4px;
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.filter-row button.selected {
+  background: var(--blue);
+  color: white;
+}
+
+.week-head,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.week-head {
+  text-align: center;
+  padding: 10px 0;
+  color: #7e8c9d;
+  font-size: 12px;
+}
+
+.week-head span:first-child {
+  color: #e77878;
+}
+
+.week-head span:last-child {
+  color: #6b9bd4;
+}
+
+.calendar-grid {
+  gap: 3px;
+}
+
+.day {
+  width: 100%;
+  min-width: 0;
+  min-height: 51px;
+  border-radius: 9px;
+  background: white;
+  color: #35455b;
+  padding: 7px 1px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.day.other {
+  color: #c5ced8;
+}
+
+.day.sun {
+  color: #e77878;
+}
+
+.day.sat {
+  color: #6b9bd4;
+}
+
+.day.today {
+  border: 2px solid #8dbbe9;
+}
+
+.day.chosen {
+  background: #dcecff;
+}
+
+.dots {
+  display: flex;
+  gap: 3px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6babe7;
+}
+
+.dot.task {
+  background: #ed7d7d;
+}
+
+.dot.private {
+  background: #75bd98;
+}
+
+/* ==========================================
+   時間割
+========================================== */
+
+.timetable-grid {
+  display: grid;
+  grid-template-columns: 29px repeat(5, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.tt-label {
+  min-width: 0;
+  text-align: center;
+  padding: 10px 0;
+  color: #7c8fa4;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.tt-cell {
+  width: 100%;
+  min-width: 0;
+  min-height: 83px;
+  border-radius: 8px;
+  background: white;
+  color: #b5c1cf;
+  padding: 5px 2px;
+  border: 1px dashed #d7e2ee;
+  overflow: hidden;
+}
+
+.tt-cell.filled {
+  background: #e4f0fd;
+  color: #4c7fb5;
+  border: 1px solid #c8dff5;
+}
+
+.tt-cell strong {
+  display: block;
+  font-size: 10px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.tt-cell small {
+  display: block;
+  font-size: 9px;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   出席・欠席管理
+========================================== */
+
+.attendance-card {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 12px 0;
+  box-shadow: 0 3px 12px rgba(120, 160, 200, 0.07);
+}
+
+.attendance-card.warning {
+  border: 2px solid #f2b3b3;
+}
+
+.attendance-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 12px 0;
+}
+
+.attendance-stat {
+  background: #f3f7fc;
+  border-radius: 12px;
+  padding: 12px 9px;
+  min-width: 0;
+}
+
+.attendance-stat strong {
+  display: block;
+  font-size: 17px;
+  margin: 5px 0;
+  white-space: nowrap;
+}
+
+.attendance-stat small {
+  font-size: 11px;
+}
+
+.attendance-stat.present strong {
+  color: #5c99d3;
+}
+
+.attendance-stat.absent strong {
+  color: #df7979;
+}
+
+.attendance-progress {
+  height: 9px;
+  background: #e7edf5;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.attendance-progress div {
+  height: 100%;
+  background: #70a9e2;
+}
+
+.attendance-warning {
+  color: #d95360;
+  background: #fff0f1;
+  padding: 10px;
+  border-radius: 9px;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.attendance-safe {
+  color: #519b75;
+  background: #eaf7ef;
+  padding: 10px;
+  border-radius: 9px;
+  margin-top: 12px;
+}
+
+.attendance-settings {
+  background: #f1f7fd;
+  padding: 15px;
+  border-radius: 13px;
+  margin: 20px 0;
+}
+
+/* ==========================================
+   先生・友達 / 生徒一覧
+========================================== */
+
+#studentFriendsArea {
+  margin-top: 24px;
+}
+
+#studentFriendsArea[hidden] {
+  display: none !important;
+}
+
+.friend-row {
+  background: white;
+  border-radius: 13px;
+  padding: 12px;
+  min-height: 62px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.friend-row.clickable {
+  cursor: pointer;
+}
+
+.friend-row.clickable:active {
+  background: #eaf3ff;
+}
+
+.friend-row.unread {
+  background: #edf5ff;
+}
+
+.friend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friend-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.friend-meta,
+.friend-preview {
+  display: block;
+  font-size: 11px;
+  margin-top: 5px;
+  color: #8795a5;
+}
+
+.friend-preview {
+  color: #5d91ca;
+  font-weight: bold;
+}
+
+.friend-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.icon-action {
+  width: 35px;
+  height: 35px;
+  border-radius: 9px;
+  background: #e9f3fd;
+  color: #5d9bd9;
+  font-size: 20px;
+}
+
+.icon-action.remove {
+  background: #eef2f7;
+}
+
+.icon-action.reject {
+  color: #d96767;
+  background: #fff0f0;
+}
+
+.search-row,
+.message-form {
+  display: flex;
+  gap: 8px;
+}
+
+.search-row input,
+.message-form input {
+  flex: 1;
+  min-width: 0;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-row input {
+  flex-shrink: 0;
+}
+
+.filter-input {
+  margin: 5px 0;
+}
+
+/* ==========================================
+   先生の予約
+========================================== */
+
+.schedule-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.schedule-row:last-child {
+  border-bottom: none;
+}
+
+.schedule-row small {
+  display: block;
+  margin-top: 5px;
+}
+
+.status {
+  font-weight: bold;
+  color: #5c95cc;
+}
+
+/* ==========================================
+   メッセージ
+========================================== */
+
+.messages {
+  background: white;
+  padding: 15px;
+  border-radius: 14px;
+  min-height: 180px;
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.bubble {
+  background: #eef3f8;
+  padding: 12px;
+  border-radius: 13px;
+  margin: 10px 0;
+  max-width: 85%;
+  width: fit-content;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bubble.mine {
+  margin-left: auto;
+  background: #dcecff;
+}
+
+.bubble small {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.message-form {
+  margin-top: 12px;
+}
+
+/* ==========================================
+   予定・授業・空き時間の編集画面
+========================================== */
+
+dialog {
+  width: calc(100% - 28px);
+  max-width: 400px;
+  max-height: 88vh;
+  overflow-y: auto;
+  border: none;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(40, 57, 76, 0.25);
+}
+
+dialog::backdrop {
+  background: rgba(36, 54, 75, 0.5);
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.dialog-actions button {
+  flex: 1;
+}
+
+/* ==========================================
+   スマホ画面専用
+========================================== */
+
+@media (max-width: 430px) {
+  body {
+    background: var(--background);
+  }
+
+  #appScreen {
+    box-shadow: none;
+  }
+
+  .app-main {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .bottom-nav {
+    height: calc(74px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .auth-screen {
+    padding: 15px;
+  }
+
+  .auth-box {
+    padding: 22px;
+  }
+}
